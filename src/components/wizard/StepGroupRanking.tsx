@@ -19,9 +19,9 @@ import { cn } from "@/lib/cn";
 const RANK_LABEL = ["1位", "2位", "3位", "4位"];
 const RANK_COLOR = [
   "bg-amber-100 text-amber-700", // 1位
-  "bg-slate-200 text-slate-600", // 2位
+  "bg-line text-muted", // 2位
   "bg-orange-100 text-orange-700", // 3位（通過候補）
-  "bg-slate-100 text-slate-400", // 4位
+  "bg-bg text-muted", // 4位
 ];
 
 /** 1グループ分の順位付け（key=group で再マウントしローカル状態をリセット） */
@@ -61,10 +61,10 @@ function GroupRanker({
               disabled={!teamId}
               onClick={() => teamId && apply(order.slice(0, i))}
               className={cn(
-                "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition",
+                "flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition",
                 teamId
-                  ? "border-line bg-surface active:scale-[0.99]"
-                  : "border-dashed border-slate-200 bg-transparent",
+                  ? "bg-surface shadow-soft active:scale-[0.99]"
+                  : "border border-dashed border-line bg-transparent",
               )}
             >
               <span
@@ -81,7 +81,7 @@ function GroupRanker({
                   <span className="text-xs text-muted">タップで変更</span>
                 </>
               ) : (
-                <span className="text-sm text-slate-400">未選択</span>
+                <span className="text-sm text-muted">未選択</span>
               )}
             </button>
           );
@@ -102,7 +102,7 @@ function GroupRanker({
                 data-testid="gp-pick"
                 data-team={id}
                 onClick={() => apply([...order, id])}
-                className="flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-3 text-left transition active:scale-[0.97]"
+                className="flex items-center gap-2 rounded-2xl bg-surface px-3 py-3 text-left shadow-soft transition active:scale-[0.97]"
               >
                 <TeamBadge teamId={id} size="md" />
               </button>
@@ -110,8 +110,8 @@ function GroupRanker({
           </div>
         </div>
       ) : (
-        <div className="mt-5 flex items-center justify-between rounded-xl bg-brand/8 px-4 py-3">
-          <span className="text-sm font-semibold text-brand">
+        <div className="mt-5 flex items-center justify-between rounded-2xl bg-brand-soft px-4 py-3">
+          <span className="text-sm font-semibold text-brand-deep">
             ✓ {group}組の順位が決まりました
           </span>
           <button
@@ -179,10 +179,10 @@ export function StepGroupRanking({ state }: { state: PredictionState }) {
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold transition",
                   active
-                    ? "bg-brand text-brand-ink"
+                    ? "bg-brand text-brand-ink shadow-soft"
                     : ranked
-                      ? "bg-brand/15 text-brand"
-                      : "bg-slate-200 text-slate-500",
+                      ? "bg-brand-soft text-brand-deep"
+                      : "bg-line text-muted",
                 )}
               >
                 {g}

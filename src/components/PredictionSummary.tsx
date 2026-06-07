@@ -35,7 +35,7 @@ export function PredictionSummary({
       )}
 
       {/* 優勝 */}
-      <div className="rounded-2xl border border-amber-200 bg-gradient-to-b from-amber-50 to-surface p-6 text-center">
+      <div className="rounded-3xl bg-gradient-to-b from-amber-50 to-surface p-6 text-center shadow-soft">
         <div className="text-4xl" aria-hidden>
           🏆
         </div>
@@ -52,7 +52,7 @@ export function PredictionSummary({
         {PODIUM.map((p) => (
           <div
             key={p.key}
-            className="flex flex-col items-center gap-1 rounded-xl border border-line bg-surface px-2 py-3 text-center"
+            className="flex flex-col items-center gap-1 rounded-2xl bg-surface px-2 py-3 text-center shadow-soft"
           >
             <span className="text-lg" aria-hidden>
               {p.medal}
@@ -64,7 +64,7 @@ export function PredictionSummary({
       </div>
 
       {/* グループリーグ結果 */}
-      <details className="rounded-2xl border border-line bg-surface">
+      <details className="rounded-3xl bg-surface shadow-soft">
         <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-ink">
           グループリーグの予想
         </summary>
@@ -89,15 +89,15 @@ export function PredictionSummary({
                           i === 0
                             ? "bg-amber-100 text-amber-700"
                             : i === 1
-                              ? "bg-slate-200 text-slate-600"
-                              : "bg-slate-100 text-slate-400",
+                              ? "bg-line text-muted"
+                              : "bg-bg text-muted",
                         )}
                       >
                         {RANK_CHIP[i]}
                       </span>
                       <TeamBadge teamId={teamId} size="sm" />
                       {i === 2 && isThird && (
-                        <span className="rounded-full bg-brand/12 px-2 py-0.5 text-[10px] font-bold text-brand">
+                        <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[10px] font-bold text-brand-deep">
                           通過
                         </span>
                       )}
@@ -111,7 +111,7 @@ export function PredictionSummary({
       </details>
 
       {/* トーナメント表 */}
-      <details className="rounded-2xl border border-line bg-surface">
+      <details className="rounded-3xl bg-surface shadow-soft">
         <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-ink">
           トーナメント表
         </summary>

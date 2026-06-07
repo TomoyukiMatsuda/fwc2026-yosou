@@ -50,15 +50,22 @@ export function StepThirdPlace({ state }: { state: PredictionState }) {
               disabled={disabled}
               onClick={() => dispatch({ type: "TOGGLE_THIRD", group: g })}
               className={cn(
-                "relative flex flex-col gap-1.5 rounded-xl border px-3 py-3 text-left transition",
+                "relative flex flex-col gap-1.5 rounded-2xl px-3 py-3 text-left transition",
                 isSelected
-                  ? "border-brand bg-brand/8 active:scale-[0.97]"
+                  ? "bg-brand-soft shadow-soft ring-1 ring-brand/20 active:scale-[0.97]"
                   : disabled
-                    ? "border-line bg-slate-50 opacity-50"
-                    : "border-line bg-surface active:scale-[0.97]",
+                    ? "bg-bg opacity-50"
+                    : "bg-surface shadow-soft active:scale-[0.97]",
               )}
             >
-              <span className="text-xs font-bold text-muted">{g}組 3位</span>
+              <span
+                className={cn(
+                  "text-xs font-bold",
+                  isSelected ? "text-brand-deep" : "text-muted",
+                )}
+              >
+                {g}組 3位
+              </span>
               <TeamBadge teamId={teamId} size="md" />
               {isSelected && (
                 <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-brand-ink">

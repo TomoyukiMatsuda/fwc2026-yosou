@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { PredictionState, WizardStep } from "@/domain/prediction/types";
 import type { ResolvedBracket } from "@/domain/bracket/generateR32";
 import {
@@ -68,7 +69,7 @@ function StepIndicator({
 }) {
   const currentIndex = STEPS.findIndex((s) => s.key === current);
   return (
-    <nav className="flex items-center gap-1.5 px-4 pt-4 pb-3">
+    <nav className="flex items-center gap-1.5 px-4 pt-2 pb-3">
       {STEPS.map((s, i) => {
         const done = stepDone(s.key, state, bracket);
         const active = s.key === current;
@@ -88,12 +89,12 @@ function StepIndicator({
           >
             <span
               className={cn(
-                "flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
+                "flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition",
                 active
-                  ? "bg-brand text-brand-ink"
+                  ? "bg-brand text-brand-ink shadow-soft"
                   : done || passed
-                    ? "bg-brand/15 text-brand"
-                    : "bg-slate-200 text-slate-400",
+                    ? "bg-brand-soft text-brand-deep"
+                    : "bg-line text-muted",
               )}
             >
               {done && !active ? "✓" : i + 1}
@@ -126,7 +127,15 @@ export function WizardShell({
 }) {
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col">
-      <header className="sticky top-0 z-10 border-b border-line bg-bg/90 backdrop-blur">
+      <header className="sticky top-0 z-10 bg-bg/85 backdrop-blur">
+        <div className="px-4 pt-3">
+          <Link
+            href="/"
+            className="-ml-1 inline-flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-semibold text-muted transition active:text-ink"
+          >
+            ← トップ
+          </Link>
+        </div>
         <StepIndicator current={step} state={state} bracket={bracket} />
       </header>
       <main className="flex-1 px-4 pb-32 pt-2">{children}</main>
@@ -137,7 +146,7 @@ export function WizardShell({
 /** ステップ共通の固定フッター（画面下に貼り付く） */
 export function StepFooter({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-surface/95 backdrop-blur">
+    <div className="fixed inset-x-0 bottom-0 z-10 bg-surface/95 shadow-up backdrop-blur">
       <div className="mx-auto flex max-w-md items-center gap-3 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         {children}
       </div>

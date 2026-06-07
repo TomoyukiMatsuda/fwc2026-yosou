@@ -7,6 +7,7 @@ import { isPredictionComplete } from "@/domain/prediction/selectors";
 import { toSharedPayload } from "@/domain/prediction/serialize";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { attachShareToCurrent } from "@/state/localHistory";
 
 type Status = "idle" | "saving" | "done" | "error";
 
@@ -49,6 +50,8 @@ export function ShareSection({
       const data = (await res.json()) as { id: string };
       setUrl(`${window.location.origin}/p/${data.id}`);
       setStatus("done");
+      // ローカル履歴の該当エントリに共有ID・ニックネームを紐づける
+      attachShareToCurrent(data.id, nickname.trim() || null);
     } catch (e) {
       setError(e instanceof Error ? e.message : "保存に失敗しました");
       setStatus("error");
@@ -77,12 +80,12 @@ export function ShareSection({
 
   if (status === "done" && url) {
     return (
-      <Card className="border-brand/30 bg-brand/5">
+      <Card className="bg-brand-soft/60">
         <p className="text-sm font-bold text-ink">共有用URLができました 🎉</p>
         <p className="mt-1 text-xs text-muted">
           このURLを知っている人だけが予想を見られます。
         </p>
-        <div className="mt-3 truncate rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink">
+        <div className="mt-3 truncate rounded-2xl bg-surface px-3 py-2.5 text-sm text-ink shadow-soft">
           {url}
         </div>
         <div className="mt-3 flex gap-2">
@@ -120,7 +123,7 @@ export function ShareSection({
         placeholder="ニックネーム（任意）"
         maxLength={20}
         data-testid="share-nickname"
-        className="mt-3 w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-base outline-none focus:border-brand"
+        className="mt-3 w-full rounded-2xl bg-surface-soft px-4 py-3 text-base outline-none ring-1 ring-line transition focus:ring-2 focus:ring-brand"
       />
       {error && <p className="mt-2 text-xs font-semibold text-red-500">{error}</p>}
       <Button

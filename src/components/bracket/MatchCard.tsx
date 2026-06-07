@@ -23,10 +23,10 @@ function TeamRow({
       <TeamBadge teamId={teamId} size="sm" />
       <span
         className={cn(
-          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold",
+          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold transition",
           isWinner
             ? "border-brand bg-brand text-brand-ink"
-            : "border-slate-300 text-transparent",
+            : "border-line text-transparent",
         )}
         aria-hidden
       >
@@ -35,10 +35,10 @@ function TeamRow({
     </>
   );
   const className = cn(
-    "flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition",
-    isWinner && "bg-brand/10",
+    "flex w-full items-center justify-between gap-2 px-3 py-3 text-left transition",
+    isWinner && "bg-brand-soft/70",
     dim && "opacity-40",
-    interactive && !isWinner && "active:bg-slate-50",
+    interactive && !isWinner && "active:bg-brand-soft/40",
   );
 
   if (!onPick) {
@@ -77,8 +77,8 @@ export function MatchCard({
       data-ready={ready}
       data-decided={winner != null}
       className={cn(
-        "overflow-hidden rounded-xl border bg-surface transition",
-        highlight ? "border-brand ring-2 ring-brand/20" : "border-line",
+        "overflow-hidden rounded-2xl bg-surface shadow-soft transition",
+        highlight && "ring-2 ring-brand/40",
         !ready && "opacity-60",
       )}
     >

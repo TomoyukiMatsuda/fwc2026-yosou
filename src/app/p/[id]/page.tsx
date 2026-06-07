@@ -64,10 +64,12 @@ export default async function SharedPredictionPage({
   return (
     <main className="mx-auto max-w-md px-4 py-6">
       <header className="mb-5 text-center">
-        <p className="text-xs font-semibold tracking-widest text-brand">
-          2026 FIFA WORLD CUP
-        </p>
-        <h1 className="mt-1 text-lg font-bold text-ink">勝ち抜き予想</h1>
+        <Link href="/" className="inline-block">
+          <p className="text-xs font-semibold tracking-widest text-brand">
+            2026 FIFA WORLD CUP
+          </p>
+          <h1 className="mt-1 text-lg font-bold text-ink">勝ち抜き予想</h1>
+        </Link>
       </header>
 
       <PredictionSummary
@@ -76,21 +78,21 @@ export default async function SharedPredictionPage({
         nickname={row.nickname}
       />
 
-      <div className="mt-8 rounded-2xl border border-line bg-surface p-5 text-center">
+      <div className="mt-8 rounded-3xl bg-surface p-5 text-center shadow-soft">
         <p className="text-sm font-bold text-ink">あなたも予想してみよう</p>
         <p className="mt-1 text-xs text-muted">
           グループリーグから優勝まで、順番に答えるだけ。
         </p>
         <Link
           href="/predict"
-          className="mt-4 inline-block w-full rounded-2xl bg-brand px-6 py-3.5 text-center text-base font-bold text-brand-ink active:scale-[0.98]"
+          className="mt-4 inline-block w-full rounded-2xl bg-brand px-6 py-3.5 text-center text-base font-bold text-brand-ink shadow-soft transition active:scale-[0.98] active:shadow-soft-lg"
         >
-          自分の予想をつくる
+          予想をつくる
         </Link>
       </div>
 
       <footer className="mt-8 pb-8 text-center text-xs text-muted">
-        個人開発 / 非公式アプリ
+        非公式アプリ
       </footer>
     </main>
   );
