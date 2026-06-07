@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fifa-wcup2026",
+  "main": ".open-next/worker.js",
+  // nodejs_compat 必須。compatibility_date は 2025-04-01 以上にして
+  // wrangler.jsonc の vars を process.env から参照可能にする。
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fifa-wcup2026-db",
+      // ↓ 初回 `wrangler d1 create fifa-wcup2026-db` 後に実IDへ置換する。
+      //   ローカル(--local)では不要、remote デプロイ前に必須。
+      "database_id": "PLACEHOLDER_RUN_wrangler_d1_create",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* ===== デザイントークン（クリーン×ミニマル / モバイルファースト） ===== */
+@theme {
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-line: #e6e8ec;
+  --color-brand: #5b3df5;
+  --color-brand-ink: #ffffff;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* iOS のセーフエリア対応 */
+  min-height: 100dvh;
+}
+
+/* タップ時のハイライトを抑える（モバイルUX） */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
