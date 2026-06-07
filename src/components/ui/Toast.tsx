@@ -19,7 +19,7 @@ export function Toast({
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-24 z-20 flex justify-center px-4">
-      <div className="max-w-md rounded-full bg-ink/90 px-4 py-2 text-sm font-semibold text-white shadow-lg">
+      <div className="max-w-md rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-soft-lg">
         {message}
       </div>
     </div>

@@ -1,18 +1,33 @@
 @import "tailwindcss";
 
-/* ===== デザイントークン（クリーン×ミニマル / モバイルファースト） ===== */
+/* ===== デザイントークン（柔らかい×シンプル / モバイルファースト） =====
+   枠線ではなく“柔らかい影”で面を分け、選択はトーナルな淡色で表現する。
+   ニュートラルにほんのり紫みを含ませ、文字は真っ黒を避けて和らげる。 */
 @theme {
   --font-sans:
     system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN",
     "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
 
-  --color-bg: #f6f7f9;
+  /* ニュートラル（ほんのり紫みで冷たさを抜く） */
+  --color-bg: #f4f3f9;
   --color-surface: #ffffff;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
-  --color-line: #e6e8ec;
+  --color-surface-soft: #faf9fe;
+  --color-ink: #221f33;
+  --color-muted: #6b6880;
+  --color-line: #ecebf3;
+
+  /* ブランド：プライマリ＋トーナルなコンテナ色 */
   --color-brand: #5b3df5;
   --color-brand-ink: #ffffff;
+  --color-brand-soft: #e9e4ff;
+  --color-brand-deep: #4427c0;
+
+  /* 柔らかいelevation（拡散・低コントラスト・ほんのり着色） */
+  --shadow-soft:
+    0 1px 2px rgba(28, 25, 60, 0.05), 0 10px 24px -8px rgba(28, 25, 60, 0.1);
+  --shadow-soft-lg:
+    0 4px 12px -2px rgba(28, 25, 60, 0.08), 0 18px 40px -12px rgba(28, 25, 60, 0.16);
+  --shadow-up: 0 -6px 20px -10px rgba(28, 25, 60, 0.12);
 }
 
 :root {
