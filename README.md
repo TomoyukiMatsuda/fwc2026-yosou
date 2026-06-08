@@ -79,7 +79,7 @@ npx wrangler d1 create fifa-wcup2026-db
 npx wrangler d1 migrations apply fifa-wcup2026-db --remote
 ```
 
-`NEXT_PUBLIC_SITE_URL` に本番URLを設定するとOGPの絶対URLが正しくなる（wrangler.jsonc の `vars` か Cloudflareダッシュボード）。
+OGP・メタデータの絶対URL解決には `NEXT_PUBLIC_SITE_URL` を使う。`NEXT_PUBLIC_` 接頭辞付き＝**ビルド時にインライン化**されるため、ランタイム変数（wrangler.jsonc の `vars` やダッシュボード）では反映されない点に注意。本番は GitHub Actions（`.github/workflows/deploy.yml`）のビルドステップで `https://fifa-wcup2026.tm29.workers.dev` を設定済み。ローカルで変えたい場合は `.env.local` に `NEXT_PUBLIC_SITE_URL=...` を置く（未設定時は `http://localhost:3000`）。
 
 デプロイ / 更新:
 

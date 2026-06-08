@@ -37,3 +37,7 @@ jobs:
 
       - name: Build & Deploy
         run: npm run deploy
+        env:
+          # NEXT_PUBLIC_* はビルド時にインライン化されるため、ここで渡す必要がある
+          # （wrangler.jsonc の vars やダッシュボードのランタイム変数では反映されない）。
+          NEXT_PUBLIC_SITE_URL: https://fifa-wcup2026.tm29.workers.dev
