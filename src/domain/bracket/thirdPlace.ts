@@ -1,17 +1,20 @@
 import type { GroupId } from "@/domain/types";
 import { THIRD_PLACE_MATCH_IDS, THIRD_SLOT_CANDIDATES } from "./r32-template";
+import { lookupOfficialThirdPlacement } from "./thirdPlacement";
 
 // ============================================================================
 // 3位通過8チームの R32 枠割当
 //
 // ユーザーが選んだ「3位通過するグループ」（最大8）を、3位スロットを持つ8試合
-// （THIRD_PLACE_MATCH_IDS）へ、各スロットの候補グループ制約を満たして割り当てる。
+// （THIRD_PLACE_MATCH_IDS）へ割り当てる。
 //
-// 公式は495シナリオ早見表だが、採点は到達ラウンド方式で対戦カードの厳密配置に
-// 非依存。よって「制約を満たす任意の整合割当」で十分。ただし素朴な貪欲だと
-// 解ける組合せでも失敗しうるので、二部最大マッチング（Kuhn法）で確実に解く。
-// 解けない場合のみ制約を緩和して必ず全枠を埋める（フォールバック）。
-// 決定論的（同じ入力→同じ割当）。
+// 8グループが確定したら FIFA 公式 Annex C（495通り）の配置をそのまま引く
+// （thirdPlacement.ts）。候補制約を満たすだけの割当では公式と異なりうる
+// （495通り中487通りでズレる）ため、公式表で対戦カードを実際の大会に一致させる。
+//
+// 8グループ未満（選択途中のプレビュー）や万一公式表に無い入力では、候補制約を
+// 満たす整合割当を二部最大マッチング（Kuhn法）で求めてフォールバックする。
+// 解けない場合のみ制約を緩和して全枠を埋める。決定論的（同じ入力→同じ割当）。
 // ============================================================================
 
 /** 割当結果: 試合ID → その3位スロットに入るグループID */
@@ -24,6 +27,11 @@ export type ThirdAssignment = Record<number, GroupId>;
 export function assignThirdPlaceSlots(
   qualifyingGroups: GroupId[],
 ): ThirdAssignment {
+  // 8グループ確定時は FIFA 公式 Annex C の配置をそのまま使う（実際の大会と一致）。
+  const official = lookupOfficialThirdPlacement(qualifyingGroups);
+  if (official) return { ...official };
+
+  // --- フォールバック（8グループ未満のプレビュー / 想定外入力）---
   // 入力を正規化（重複除去・グループ辞書順で決定論化）
   const groups = [...new Set(qualifyingGroups)].sort();
 
