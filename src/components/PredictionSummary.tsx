@@ -66,7 +66,7 @@ export function PredictionSummary({
       {/* グループリーグ結果 */}
       <details className="rounded-3xl bg-surface shadow-soft">
         <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-ink">
-          グループリーグの予想
+          グループリーグ 最終順位
         </summary>
         <div className="space-y-3 px-4 pb-4">
           {GROUP_IDS.map((g) => {

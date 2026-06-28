@@ -18,7 +18,9 @@ import {
 // localStorage同期もここで行う。
 // ============================================================================
 
-const STORAGE_KEY = "fifa-wcup2026-prediction-v1";
+// 決勝トーナメント予想モード専用キー。旧 -prediction-v1（グループ予想の下書き）とは
+// 分離する＝確定済みの今、旧未完成下書きは意味を失っており復元しない。
+const STORAGE_KEY = "fifa-wcup2026-knockout-v1";
 
 // モジュール初期値は「空のデフォルト」。localStorageはマウント後に読み込み、
 // サーバ初期レンダーと初回クライアントレンダーを一致させる（ハイドレーション安全）。
@@ -102,15 +104,13 @@ function normalizeStored(raw: unknown): PredictionState | null {
   if (!raw || typeof raw !== "object") return null;
   const p = raw as Partial<PredictionState>;
   if (p.schemaVersion !== 1) return null; // 将来のバージョン移行はここで
+  // groupRankings / thirdPlaceQualifiers は常にプリセット（確定値）を使う。
+  // 復元するのは knockoutPicks と wizard.step のみ＝古い値で確定順位が上書きされない。
+  const step = p.wizard?.step === "SUMMARY" ? "SUMMARY" : "KNOCKOUT";
   return {
     ...initialPredictionState(),
-    groupRankings: p.groupRankings ?? {},
-    thirdPlaceQualifiers: p.thirdPlaceQualifiers ?? [],
     knockoutPicks: p.knockoutPicks ?? {},
-    wizard: {
-      step: p.wizard?.step ?? "GROUP",
-      groupCursor: p.wizard?.groupCursor ?? 0,
-    },
+    wizard: { step, groupCursor: 0 },
     meta: { updatedAt: p.meta?.updatedAt ?? 0 },
   };
 }

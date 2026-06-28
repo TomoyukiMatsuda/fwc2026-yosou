@@ -10,6 +10,7 @@ import { dispatch } from "@/state/usePrediction";
 import { BracketView } from "@/components/bracket/BracketView";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { GroupStandingsReference } from "./GroupStandingsReference";
 import { StepFooter } from "./WizardShell";
 
 export function StepKnockout({ bracket }: { bracket: ResolvedBracket }) {
@@ -32,6 +33,14 @@ export function StepKnockout({ bracket }: { bracket: ResolvedBracket }) {
         <ProgressBar value={decided} max={total} />
       </div>
 
+      <p className="mb-3 rounded-2xl bg-brand-soft px-3 py-2 text-xs font-semibold text-brand-deep">
+        組み合わせはFIFA公式で確定済み。勝ち上がりだけを選びます。
+      </p>
+
+      <div className="mb-4">
+        <GroupStandingsReference />
+      </div>
+
       <BracketView
         bracket={bracket}
         highlightId={nextOpen}
@@ -41,13 +50,6 @@ export function StepKnockout({ bracket }: { bracket: ResolvedBracket }) {
       />
 
       <StepFooter>
-        <Button
-          variant="secondary"
-          onClick={() => dispatch({ type: "GOTO_STEP", step: "THIRD" })}
-          className="px-4"
-        >
-          ←
-        </Button>
         <Button
           variant="primary"
           fullWidth

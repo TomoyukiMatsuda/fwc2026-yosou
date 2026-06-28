@@ -8,8 +8,6 @@ import {
   usePredictionHydration,
 } from "@/state/usePrediction";
 import { WizardShell } from "@/components/wizard/WizardShell";
-import { StepGroupRanking } from "@/components/wizard/StepGroupRanking";
-import { StepThirdPlace } from "@/components/wizard/StepThirdPlace";
 import { StepKnockout } from "@/components/wizard/StepKnockout";
 import { StepSummary } from "@/components/wizard/StepSummary";
 import { Toast } from "@/components/ui/Toast";
@@ -27,9 +25,7 @@ export default function PredictPage() {
   const step = state.wizard.step;
 
   return (
-    <WizardShell step={step} state={state} bracket={bracket}>
-      {step === "GROUP" && <StepGroupRanking state={state} />}
-      {step === "THIRD" && <StepThirdPlace state={state} />}
+    <WizardShell step={step} bracket={bracket}>
       {step === "KNOCKOUT" && <StepKnockout bracket={bracket} />}
       {step === "SUMMARY" && <StepSummary state={state} bracket={bracket} />}
 
