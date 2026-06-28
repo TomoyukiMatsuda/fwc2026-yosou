@@ -12,8 +12,8 @@ export default function Home() {
           勝ち抜き予想
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-          史上初の48チーム制。グループリーグから優勝まで、
-          順番に答えるだけで予想が完成します。
+          決勝トーナメントの組み合わせが確定。
+          ベスト32から優勝まで、勝ち上がりを予想しよう。
         </p>
 
         <StartPrediction />

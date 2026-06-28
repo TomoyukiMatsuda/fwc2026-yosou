@@ -1,34 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import type { PredictionState, WizardStep } from "@/domain/prediction/types";
+import type { WizardStep } from "@/domain/prediction/types";
 import type { ResolvedBracket } from "@/domain/bracket/generateR32";
-import {
-  isGroupStageComplete,
-  isKnockoutComplete,
-  isThirdComplete,
-} from "@/domain/prediction/selectors";
+import { isKnockoutComplete } from "@/domain/prediction/selectors";
 import { dispatch } from "@/state/usePrediction";
 import { cn } from "@/lib/cn";
 
 const STEPS: { key: WizardStep; label: string; short: string }[] = [
-  { key: "GROUP", label: "グループリーグ", short: "順位" },
-  { key: "THIRD", label: "3位通過", short: "3位" },
   { key: "KNOCKOUT", label: "決勝トーナメント", short: "決勝T" },
   { key: "SUMMARY", label: "完成", short: "完成" },
 ];
 
 /** 各ステップが完了済みか */
-function stepDone(
-  key: WizardStep,
-  state: PredictionState,
-  bracket: ResolvedBracket,
-): boolean {
+function stepDone(key: WizardStep, bracket: ResolvedBracket): boolean {
   switch (key) {
-    case "GROUP":
-      return isGroupStageComplete(state);
-    case "THIRD":
-      return isThirdComplete(state);
     case "KNOCKOUT":
       return isKnockoutComplete(bracket);
     case "SUMMARY":
@@ -36,44 +22,30 @@ function stepDone(
   }
 }
 
-/** そのステップへ移動可能か（前提ステップが完了しているか） */
-function canGoTo(
-  key: WizardStep,
-  state: PredictionState,
-  bracket: ResolvedBracket,
-): boolean {
+/** そのステップへ移動可能か（KNOCKOUTは常時、SUMMARYは勝ち上がり完成後） */
+function canGoTo(key: WizardStep, bracket: ResolvedBracket): boolean {
   switch (key) {
-    case "GROUP":
-      return true;
-    case "THIRD":
-      return isGroupStageComplete(state);
     case "KNOCKOUT":
-      return isGroupStageComplete(state) && isThirdComplete(state);
+      return true;
     case "SUMMARY":
-      return (
-        isGroupStageComplete(state) &&
-        isThirdComplete(state) &&
-        isKnockoutComplete(bracket)
-      );
+      return isKnockoutComplete(bracket);
   }
 }
 
 function StepIndicator({
   current,
-  state,
   bracket,
 }: {
   current: WizardStep;
-  state: PredictionState;
   bracket: ResolvedBracket;
 }) {
   const currentIndex = STEPS.findIndex((s) => s.key === current);
   return (
     <nav className="flex items-center gap-1.5 px-4 pt-2 pb-3">
       {STEPS.map((s, i) => {
-        const done = stepDone(s.key, state, bracket);
+        const done = stepDone(s.key, bracket);
         const active = s.key === current;
-        const reachable = canGoTo(s.key, state, bracket);
+        const reachable = canGoTo(s.key, bracket);
         const passed = i < currentIndex;
         return (
           <button
@@ -116,12 +88,10 @@ function StepIndicator({
 
 export function WizardShell({
   step,
-  state,
   bracket,
   children,
 }: {
   step: WizardStep;
-  state: PredictionState;
   bracket: ResolvedBracket;
   children: React.ReactNode;
 }) {
@@ -136,7 +106,7 @@ export function WizardShell({
             ← トップ
           </Link>
         </div>
-        <StepIndicator current={step} state={state} bracket={bracket} />
+        <StepIndicator current={step} bracket={bracket} />
       </header>
       <main className="flex-1 px-4 pb-32 pt-2">{children}</main>
     </div>

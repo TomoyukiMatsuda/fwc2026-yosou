@@ -23,18 +23,18 @@ const SECONDARY =
  * - 作りかけ（未完成の下書き）があるときだけ「前回の続きから」を出す
  * - 「新しい予想をつくる」は常に下書きをリセットしてまっさらから開始
  *   （完成済みの予想は履歴に残っているので失われない）
+ *
+ * groupRankings / thirdPlaceQualifiers は確定値で常に非空のため進捗判定に使えない。
+ * ユーザーが実際に操作するのは knockoutPicks だけ＝これを進捗の唯一の指標にする。
  */
 export function StartPrediction() {
   usePredictionHydration();
   const state = usePrediction();
   const router = useRouter();
 
-  const hasProgress =
-    Object.keys(state.groupRankings).length > 0 ||
-    state.thirdPlaceQualifiers.length > 0 ||
-    Object.keys(state.knockoutPicks).length > 0;
   const inProgress =
-    hasProgress && !isPredictionComplete(state, getBracket(state));
+    Object.keys(state.knockoutPicks).length > 0 &&
+    !isPredictionComplete(state, getBracket(state));
 
   const startNew = () => {
     if (
@@ -60,7 +60,7 @@ export function StartPrediction() {
         onClick={startNew}
         className={inProgress ? `${SECONDARY} mt-3` : PRIMARY}
       >
-        新しい予想をつくる
+        {inProgress ? "新しい予想をつくる" : "決勝トーナメントを予想する"}
       </button>
     </div>
   );
